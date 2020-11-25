@@ -1,0 +1,29 @@
+﻿@page "/"
+@using Core.Models
+@using BlazorComponentLibServer.Models
+@using Microsoft.AspNetCore.Builder
+
+<input @bind="NbEntity" />
+<button type="button" class="btn btn-primary" @onclick="Generate">Generate</button>
+<br />
+
+@if (Generated == true)
+{
+    <div>Pagination de toutes les entité de type "Person"</div>
+
+    <ComponentPagination T="Person"></ComponentPagination>
+
+    <br />
+
+    <div>Pagination de @($@"ListPersons.Take(15).Select(predicat pour sélectioner les champs).ToList()") passée en parametre</div>
+
+    <ComponentPagination ListEntities="ListPersons.Take(15).Select(v => new Person {FirstName = v.FirstName, LastName = v.LastName}).ToList()"T="Person"></ComponentPagination>
+    
+    <br />
+
+    <div>Tableau complet de la liste passée en parametre</div>
+    
+    <ComponentTable RowListEntity="ListPersons" T="Person"></ComponentTable>
+
+
+}
