@@ -1,0 +1,34 @@
+﻿@typeparam T
+
+<ComponentTable RowListEntity="PaginatedEntities" T="T"></ComponentTable>
+
+@if (Paginated)
+{
+    <div>
+        <nav>
+            <ul class="pagination">
+                <li class="page-item">
+                    <button class="page-link" @onclick="(() => Pagination(1))">First</button>
+                </li>
+                <li class="page-item">
+                    @{var p = Index - 1 <= 0 ? 1 : Index - 1; }
+                    <button class="page-link" @onclick="(() => Pagination(p))">...</button>
+                </li>
+                @for (var i = (Index - 3 < 0 ? 1 : Index - 3); i <= (Index + 3 >= NumberOfPage ? NumberOfPage : Index + 3); i++)
+                {
+                    <li class="page-item">
+                        @{var y = i; }
+                        <button class="page-link" @onclick="(() => Pagination(y))" style="background-color: @(i == Index ? "blue" : null)">@i</button>
+                    </li>
+                }
+                <li class="page-item">
+                    @{var n = Index + 1 >= NumberOfPage ? NumberOfPage : Index + 1;}
+                    <button class="page-link" @onclick="(() => Pagination(n))">...</button>
+                </li>
+                <li class="page-item">
+                    <button class="page-link" @onclick="(() => Pagination(NumberOfPage))">Last</button>
+                </li>
+            </ul>
+        </nav>
+    </div>
+}

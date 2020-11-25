@@ -1,0 +1,34 @@
+﻿@page "/pagination"
+@using Core.Models
+@using BlazorComponentLibServer.Models
+
+<h3>Pagination</h3>
+<br />
+
+<input @bind="NbEntity" />
+<button type="button" class="btn btn-primary" @onclick="Generate">Generate</button>
+<br />
+<br />
+
+@if (Generated == true)
+{
+    <div>
+        Pagination de toutes les entité de type "Person"
+        <TableComponent T="Person" Paginated="true"></TableComponent>
+    </div>
+
+    <br />
+
+    <div>
+        Pagination d'une liste
+        <TableComponent ListEntities="ListPersonsFiltered" T="Person" Paginated="true"></TableComponent>
+    </div>
+
+    <br />
+
+    <div>
+        Tableau complet de la liste passée en parametre
+        <TableComponent ListEntities="ListPersons" T="Person" ></TableComponent>
+    </div>
+
+}
