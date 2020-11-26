@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using BlazorComponentLibServer.Context;
 using Core.Models;
 using Microsoft.AspNetCore.Components;
 
 namespace BlazorComponentLib.Component.TableComponent
 {
-    public abstract partial class TableComponent<T> : ComponentBase where T : Entity
+    public abstract partial class TableComponent<T> : ComponentBase
     {
         private PaginatedList<T> PaginatedEntities { get; set; }
         private int Index { get; set; }
@@ -30,10 +28,9 @@ namespace BlazorComponentLib.Component.TableComponent
         {
             base.OnInitialized();
 
-            if (ListEntities == null)
+            if (typeof(T).BaseType != typeof(Entity))
             {
-                using var context = new BlazorContext();
-                ListEntities = context.QueryCollection<T>().ToList();
+                Crud = false;
             }
 
             if (Paginated == false)

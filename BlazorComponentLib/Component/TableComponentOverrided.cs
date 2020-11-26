@@ -5,14 +5,20 @@ using System.Threading.Tasks;
 using BlazorComponentLib.Component.TableComponent;
 using BlazorComponentLibServer.Models;
 using Core.Models;
+using Microsoft.AspNetCore.Components;
 
 namespace BlazorComponentLib.Component
 {
-    public class TableComponentOverrided<T> : TableComponent<T> where T : Entity
+    // ReSharper disable once ClassNeverInstantiated.Global
+    // ReSharper disable once IdentifierTypo
+    public class TableComponentOverrided<T> : TableComponent<T>
     {
+        [Inject] 
+        private NavigationManager Navigation { get; set; }
+
         protected override void Read(string id)
         {
-
+            Navigation.NavigateTo($"/readPageTest/{id}");
         }
 
         protected override void Update(string id)
@@ -25,6 +31,6 @@ namespace BlazorComponentLib.Component
 
         }
 
-        protected override int PageSize { get; set; } = 10;
+        protected override int PageSize { get; set; } = 5;
     }
 }

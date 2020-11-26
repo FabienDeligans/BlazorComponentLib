@@ -5,12 +5,12 @@ using Core.Models;
 
 namespace BlazorComponentLib.Component.TableComponent
 {
-    public class PaginatedList<T> : List<T> where T : Entity
+    public class PaginatedList<T> : List<T>
     {
-        public int PageIndex { get; private set; }
-        public int TotalPages { get; private set; }
+        private int PageIndex { get; set; }
+        private int TotalPages { get; set; }
 
-        public PaginatedList(List<T> items, int count, int pageIndex, int pageSize)
+        private PaginatedList(List<T> items, int count, int pageIndex, int pageSize)
         {
             PageIndex = pageIndex;
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);

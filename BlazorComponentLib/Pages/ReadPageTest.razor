@@ -1,0 +1,12 @@
+﻿@page "/readPageTest/{IdStr}"
+
+<h3>Read Page Test</h3>
+
+<div>@IdStr</div>
+
+
+@code
+{
+    [Parameter]
+    public string IdStr { get; set; }
+}

@@ -3,11 +3,13 @@
 
 @if (ListEntities == null || ListEntities.Count == 0)
 {
+    <br/>
     <img src="https://media.giphy.com/media/SUzPI5wAkp6UXMEkok/giphy.gif" alt="Load" />
     <br />
 }
 else
 {
+    <br/>
     <table class="table table-responsive table-hover">
         <thead>
             <tr>
@@ -47,9 +49,13 @@ else
                     }
                     @if (Crud == true)
                     {
-                        <td><button class="btn btn-primary" type="button" @onclick="@(() => Read(element.Id))">Read</button></td>
-                        <td><button class="btn btn-primary" type="button" @onclick="@(() => Update(element.Id))">Update</button></td>
-                        <td><button class="btn btn-primary" type="button" @onclick="@(() => Delete(element.Id))">Delete</button></td>
+                        if (typeof(T).BaseType == typeof(Entity))
+                        {
+                            var entity = element as Entity;
+                            <td><button class="btn btn-primary" type="button" @onclick="@(() => Read(entity?.Id))">Read</button></td>
+                            <td><button class="btn btn-primary" type="button" @onclick="@(() => Update(entity?.Id))">Update</button></td>
+                            <td><button class="btn btn-primary" type="button" @onclick="@(() => Delete(entity?.Id))">Delete</button></td>
+                        }
                     }
                 </tr>
             }
@@ -67,8 +73,11 @@ else
                         @{var p = Index - 1 <= 0 ? 1 : Index - 1; }
                         <button class="page-link" @onclick="(() => Pagination(p))">...</button>
                     </li>
-                    @for (var i = (Index - 3 < 0 ? 1 : Index - 3); i <= (Index + 3 >= NumberOfPage ? NumberOfPage : Index + 3); i++)
+                    @*@for (var i = (Index - 3 < 0 ? 1 : Index - 3); i <= (Index + 3 >= NumberOfPage ? NumberOfPage : Index + 3); i++)
+                        {*@
+                    @for (var i = 1; i <= NumberOfPage; i++)
                     {
+
                         <li class="page-item">
                             @{var y = i; }
                             <button class="page-link" @onclick="(() => Pagination(y))" style="background-color: @(i == Index ? "blue" : null)">@i</button>

@@ -7,19 +7,14 @@ namespace BlazorComponentLib.Pages
 {
     public partial class Pagination
     {
-        public int NbEntity { get; set; }
+        private int NbEntity { get; set; }
+        private bool Generated { get; set; }
+        private List<Person> ListPersons { get; set; }
+        private List<Person> ListPersonsFiltered { get; set; }
 
-        public bool Generated { get; set; }
+        private List<Truc> ListTruc { get; set;  }
 
-        public List<Person> ListPersons { get; set; }
-        public List<Person> ListPersonsFiltered { get; set; }
-
-        protected override void OnInitialized()
-        {
-            base.OnInitialized();
-        }
-
-        public void Generate()
+        private void Generate()
         {
             using var context = new BlazorContext();
             context.DropDatabase();
@@ -49,9 +44,32 @@ namespace BlazorComponentLib.Pages
                 })
                 .ToList();
 
-            Generated = true;
+            ListTruc = new List<Truc>(); 
+            for (var i = 0; i < NbEntity; i ++)
+            {
+                var truc = new Truc
+                {
+                    StrA = $"aa{i}",
+                    StrB = $"bb{i}",
+                    StrC = $"cc{i}",
+                    StrD = $"dd{i}",
+                    StrE = $"ee{i}",
+                };
+                ListTruc.Add(truc);
+            }
 
+
+            Generated = true;
             InvokeAsync(StateHasChanged);
         }
+    }
+
+    public class Truc
+    {
+        public string StrA { get; set; }
+        public string StrB { get; set; }
+        public string StrC { get; set; }
+        public string StrD { get; set; }
+        public string StrE { get; set; }
     }
 }
