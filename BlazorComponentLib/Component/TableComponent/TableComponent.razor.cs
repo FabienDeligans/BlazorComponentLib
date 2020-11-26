@@ -7,18 +7,24 @@ using Microsoft.AspNetCore.Components;
 
 namespace BlazorComponentLib.Component.TableComponent
 {
-    public partial class TableComponent<T> : ComponentBase where T : Entity
+    public abstract partial class TableComponent<T> : ComponentBase where T : Entity
     {
-        public PaginatedList<T> PaginatedEntities { get; set; }
-        public int Index { get; set; }
-        public int PageSize { get; set; } = 10;
-        public int NumberOfPage { get; set; }
+        private PaginatedList<T> PaginatedEntities { get; set; }
+        private int Index { get; set; }
+        protected virtual int PageSize { get; set; } = 10;
+        private int NumberOfPage { get; set; }
 
         [Parameter]
         public List<T> ListEntities { get; set; }
 
         [Parameter]
         public bool Paginated { get; set; }
+        
+        [Parameter]
+        public RenderFragment RenderFragment { get; set; }
+
+        [Parameter]
+        public bool Crud { get; set; }
 
         protected override void OnInitialized()
         {
@@ -39,11 +45,21 @@ namespace BlazorComponentLib.Component.TableComponent
             PaginatedEntities = PaginatedList<T>.Create(ListEntities, Index, PageSize);
         }
 
-        public void Pagination(int nb)
+        private void Pagination(int nb)
         {
             Index = nb;
             PaginatedEntities = PaginatedList<T>.Create(ListEntities, Index, PageSize);
-            StateHasChanged();
         }
+
+        protected override void OnParametersSet()
+        {
+            OnInitialized();
+            base.OnParametersSet();
+        }
+
+        protected abstract void Read(string id);
+        protected abstract void Update(string id);
+        protected abstract void Delete(string id);
+
     }
 }

@@ -2,13 +2,11 @@
 using System.Linq;
 using BlazorComponentLibServer.Context;
 using BlazorComponentLibServer.Models;
-using Microsoft.AspNetCore.Components;
 
 namespace BlazorComponentLib.Pages
 {
     public partial class Pagination
     {
-        [Parameter]
         public int NbEntity { get; set; }
 
         public bool Generated { get; set; }
@@ -43,17 +41,17 @@ namespace BlazorComponentLib.Pages
 
             ListPersons = context.QueryCollection<Person>().ToList();
             ListPersonsFiltered = ListPersons
-                .Take(15)
                 .Select(v => new Person
                 {
                     FirstName = v.FirstName,
                     LastName = v.LastName,
+                    Id = v.Id,
                 })
                 .ToList();
 
             Generated = true;
 
-            StateHasChanged();
+            InvokeAsync(StateHasChanged);
         }
     }
 }

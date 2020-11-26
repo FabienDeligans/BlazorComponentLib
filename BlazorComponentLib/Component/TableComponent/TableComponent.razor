@@ -1,34 +1,88 @@
-﻿@typeparam T
+﻿@using Core.Models
+@typeparam T
 
-<ComponentTable RowListEntity="PaginatedEntities" T="T"></ComponentTable>
-
-@if (Paginated)
+@if (ListEntities == null || ListEntities.Count == 0)
 {
-    <div>
-        <nav>
-            <ul class="pagination">
-                <li class="page-item">
-                    <button class="page-link" @onclick="(() => Pagination(1))">First</button>
-                </li>
-                <li class="page-item">
-                    @{var p = Index - 1 <= 0 ? 1 : Index - 1; }
-                    <button class="page-link" @onclick="(() => Pagination(p))">...</button>
-                </li>
-                @for (var i = (Index - 3 < 0 ? 1 : Index - 3); i <= (Index + 3 >= NumberOfPage ? NumberOfPage : Index + 3); i++)
+    <img src="https://media.giphy.com/media/SUzPI5wAkp6UXMEkok/giphy.gif" alt="Load" />
+    <br />
+}
+else
+{
+    <table class="table table-responsive table-hover">
+        <thead>
+            <tr>
+                @foreach (var property in PaginatedEntities.First().GetType().GetProperties().Where(v => v.GetValue(ListEntities.First()) != null))
                 {
-                    <li class="page-item">
-                        @{var y = i; }
-                        <button class="page-link" @onclick="(() => Pagination(y))" style="background-color: @(i == Index ? "blue" : null)">@i</button>
-                    </li>
+                    if (property.Name == nameof(Entity.Id))
+                    {
+                        <th hidden="hidden">@property.Name</th>
+                    }
+                    else
+                    {
+                        <th>@property.Name</th>
+                    }
                 }
-                <li class="page-item">
-                    @{var n = Index + 1 >= NumberOfPage ? NumberOfPage : Index + 1;}
-                    <button class="page-link" @onclick="(() => Pagination(n))">...</button>
-                </li>
-                <li class="page-item">
-                    <button class="page-link" @onclick="(() => Pagination(NumberOfPage))">Last</button>
-                </li>
-            </ul>
-        </nav>
-    </div>
+                @if (Crud == true)
+                {
+                    <th>Read</th>
+                    <th>Update</th>
+                    <th>Delete</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var element in PaginatedEntities)
+            {
+                <tr>
+                    @foreach (var property in element.GetType().GetProperties().Where(v => v.GetValue(element) != null))
+                    {
+                        if (property.Name == nameof(Entity.Id))
+                        {
+                            <td hidden="hidden">@property.GetValue(element)</td>
+                        }
+                        else
+                        {
+                            <td>@property.GetValue(element)</td>
+                        }
+                    }
+                    @if (Crud == true)
+                    {
+                        <td><button class="btn btn-primary" type="button" @onclick="@(() => Read(element.Id))">Read</button></td>
+                        <td><button class="btn btn-primary" type="button" @onclick="@(() => Update(element.Id))">Update</button></td>
+                        <td><button class="btn btn-primary" type="button" @onclick="@(() => Delete(element.Id))">Delete</button></td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+    @if (Paginated)
+    {
+        <div>
+            <nav>
+                <ul class="pagination">
+                    <li class="page-item">
+                        <button class="page-link" @onclick="(() => Pagination(1))">First</button>
+                    </li>
+                    <li class="page-item">
+                        @{var p = Index - 1 <= 0 ? 1 : Index - 1; }
+                        <button class="page-link" @onclick="(() => Pagination(p))">...</button>
+                    </li>
+                    @for (var i = (Index - 3 < 0 ? 1 : Index - 3); i <= (Index + 3 >= NumberOfPage ? NumberOfPage : Index + 3); i++)
+                    {
+                        <li class="page-item">
+                            @{var y = i; }
+                            <button class="page-link" @onclick="(() => Pagination(y))" style="background-color: @(i == Index ? "blue" : null)">@i</button>
+                        </li>
+                    }
+                    <li class="page-item">
+                        @{var n = Index + 1 >= NumberOfPage ? NumberOfPage : Index + 1;}
+                        <button class="page-link" @onclick="(() => Pagination(n))">...</button>
+                    </li>
+                    <li class="page-item">
+                        <button class="page-link" @onclick="(() => Pagination(NumberOfPage))">Last</button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    }
 }

@@ -63,6 +63,7 @@ namespace BlazorComponentLib.Component.TableComponent
             builder.CloseElement();
 
             base.BuildRenderTree(builder);
+
         }
     }
 }

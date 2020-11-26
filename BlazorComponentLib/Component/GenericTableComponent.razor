@@ -1,0 +1,33 @@
+﻿@using System.Reflection
+@using BlazorComponentLibServer.Context
+@using System.ComponentModel.DataAnnotations
+
+@*@if (List == null || List.Count == 0)
+{
+    <img src="https://media.giphy.com/media/SUzPI5wAkp6UXMEkok/giphy.gif" />
+}
+else
+{
+    <table class="table table-responsive table-hover">
+        <thead>
+            <tr>
+                @foreach (var property in List.First().GetType().GetProperties().Where(v => v.GetValue(List.First()) != null))
+                {
+                    <th>@property.Name</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var element in List)
+            {
+                <tr>
+                    @foreach (var propertyValue in element.GetType().GetProperties().Where(v => v.GetValue(element) != null).Select(v => v.GetValue(element)))
+                    {
+                        <td>@propertyValue</td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+}*@
+

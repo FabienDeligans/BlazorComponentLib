@@ -5,6 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Component\TableComponent\ComponentTable.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Component\GenericTableComponent.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MongoDB.Driver" Version="2.11.4" />
   </ItemGroup>
 
