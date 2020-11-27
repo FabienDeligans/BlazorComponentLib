@@ -12,7 +12,45 @@ namespace BlazorComponentLib.Pages
         private List<Person> ListPersons { get; set; }
         private List<Person> ListPersonsFiltered { get; set; }
 
-        private List<Truc> ListTruc { get; set;  }
+        private List<TrucNotEntity> ListTruc { get; set;  }
+
+        protected override void OnInitialized()
+        {
+            using var context = new BlazorContext();
+            if (!context.QueryCollection<Person>().Any())
+            {
+                Generate(); 
+            }
+            else
+            {
+                ListPersons = context.QueryCollection<Person>().ToList();
+                ListPersonsFiltered = ListPersons
+                    .Select(v => new Person
+                    {
+                        FirstName = v.FirstName,
+                        LastName = v.LastName,
+                        Id = v.Id,
+                    })
+                    .ToList();
+
+                ListTruc = new List<TrucNotEntity>();
+                for (var i = 0; i < NbEntity; i++)
+                {
+                    var truc = new TrucNotEntity
+                    {
+                        StrA = $"aa{i}",
+                        StrB = $"bb{i}",
+                        StrC = $"cc{i}",
+                        StrD = $"dd{i}",
+                        StrE = $"ee{i}",
+                    };
+                    ListTruc.Add(truc);
+                }
+
+                Generated = true;
+            }
+            base.OnInitialized();
+        }
 
         private void Generate()
         {
@@ -26,7 +64,7 @@ namespace BlazorComponentLib.Pages
                 {
                     FirstName = $"FirstName {i}",
                     LastName = $"LastName {i}",
-                    Adress = $"Adresse {i}",
+                    Adress = $"Address {i}",
                     Cp = $"Cp {i}",
                     City = $"City {i}"
                 };
@@ -44,10 +82,10 @@ namespace BlazorComponentLib.Pages
                 })
                 .ToList();
 
-            ListTruc = new List<Truc>(); 
+            ListTruc = new List<TrucNotEntity>(); 
             for (var i = 0; i < NbEntity; i ++)
             {
-                var truc = new Truc
+                var truc = new TrucNotEntity
                 {
                     StrA = $"aa{i}",
                     StrB = $"bb{i}",
@@ -58,18 +96,8 @@ namespace BlazorComponentLib.Pages
                 ListTruc.Add(truc);
             }
 
-
             Generated = true;
             InvokeAsync(StateHasChanged);
         }
-    }
-
-    public class Truc
-    {
-        public string StrA { get; set; }
-        public string StrB { get; set; }
-        public string StrC { get; set; }
-        public string StrD { get; set; }
-        public string StrE { get; set; }
     }
 }

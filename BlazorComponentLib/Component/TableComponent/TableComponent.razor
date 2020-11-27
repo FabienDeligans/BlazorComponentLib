@@ -3,13 +3,15 @@
 
 @if (ListEntities == null || ListEntities.Count == 0)
 {
-    <br/>
-    <img src="https://media.giphy.com/media/SUzPI5wAkp6UXMEkok/giphy.gif" alt="Load" />
+    <br />
+    <div>
+        <img src="https://media.giphy.com/media/sSgvbe1m3n93G/giphy.gif" alt="Load" />
+    </div>
     <br />
 }
 else
 {
-    <br/>
+    <br />
     <table class="table table-responsive table-hover">
         <thead>
             <tr>
@@ -29,6 +31,7 @@ else
                     <th>Read</th>
                     <th>Update</th>
                     <th>Delete</th>
+                    <th><button class="btn btn-sm btn-primary" type="button" @onclick="@Create">Create</button></th>
                 }
             </tr>
         </thead>
@@ -52,9 +55,9 @@ else
                         if (typeof(T).BaseType == typeof(Entity))
                         {
                             var entity = element as Entity;
-                            <td><button class="btn btn-primary" type="button" @onclick="@(() => Read(entity?.Id))">Read</button></td>
-                            <td><button class="btn btn-primary" type="button" @onclick="@(() => Update(entity?.Id))">Update</button></td>
-                            <td><button class="btn btn-primary" type="button" @onclick="@(() => Delete(entity?.Id))">Delete</button></td>
+                            <td><button class="btn btn-sm btn-primary" type="button" @onclick="@(() => Read(entity?.Id))">Read</button></td>
+                            <td><button class="btn btn-sm btn-primary" type="button" @onclick="@(() => Update(entity?.Id))">Update</button></td>
+                            <td><button class="btn btn-sm btn-primary" type="button" @onclick="@(() => Delete(entity?.Id))">Delete</button></td>
                         }
                     }
                 </tr>
@@ -66,29 +69,53 @@ else
         <div>
             <nav>
                 <ul class="pagination">
-                    <li class="page-item">
-                        <button class="page-link" @onclick="(() => Pagination(1))">First</button>
-                    </li>
-                    <li class="page-item">
-                        @{var p = Index - 1 <= 0 ? 1 : Index - 1; }
-                        <button class="page-link" @onclick="(() => Pagination(p))">...</button>
-                    </li>
-                    @*@for (var i = (Index - 3 < 0 ? 1 : Index - 3); i <= (Index + 3 >= NumberOfPage ? NumberOfPage : Index + 3); i++)
-                        {*@
-                    @for (var i = 1; i <= NumberOfPage; i++)
+                    @if (Index != 1)
                     {
-
                         <li class="page-item">
-                            @{var y = i; }
-                            <button class="page-link" @onclick="(() => Pagination(y))" style="background-color: @(i == Index ? "blue" : null)">@i</button>
+                            <button class="btn btn-secondary" @onclick="(() => GoToPage(Index - 1))">Prev.</button>
+                        </li>
+                        @if (Index >= 10)
+                        {
+                            <li class="page-item">
+                                <button class="btn btn-info" @onclick="(() => GoToPage(JumpDown))">@(JumpDown)...</button>
+                            </li>
+                        }
+                    }
+                    @foreach (var i in ButtonList)
+                    {
+                        <li class="page-item">
+                            @{var y = i;}
+                            <button class="@(i == Index ? "btn btn-success" : "btn btn")" @onclick="(() => GoToPage(y))">@y</button>
                         </li>
                     }
-                    <li class="page-item">
-                        @{var n = Index + 1 >= NumberOfPage ? NumberOfPage : Index + 1;}
-                        <button class="page-link" @onclick="(() => Pagination(n))">...</button>
-                    </li>
-                    <li class="page-item">
-                        <button class="page-link" @onclick="(() => Pagination(NumberOfPage))">Last</button>
+                    @if (!ButtonList.Contains(NumberOfPage))
+                    {
+                        <li class="page-item">
+                            <button class="btn btn-info" @onclick="(() => GoToPage(JumpUp))">@(JumpUp)...</button>
+                        </li>
+                    }
+                    @if (Index != NumberOfPage)
+                    {
+                        <li class="page-item">
+                            <button class="btn btn-secondary" @onclick="(() => GoToPage(Index + 1))">Suiv.</button>
+                        </li>
+                    }
+                    <li>
+                        <div class="row">
+                            <div class="col-6" align="center">
+                                <div class=" btn btn-link disabled">
+                                    @Index/@NumberOfPage
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <select class="custom-select" @onchange="@GotoInputSelect">
+                                    @for (var i = 1; i <= NumberOfPage; i++)
+                                    {
+                                        <option value="@i">@i</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
                     </li>
                 </ul>
             </nav>

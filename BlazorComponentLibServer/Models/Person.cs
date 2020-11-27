@@ -1,4 +1,5 @@
-﻿using Core.Models;
+﻿using System.Collections;
+using Core.Models;
 
 namespace BlazorComponentLibServer.Models
 {
@@ -9,5 +10,6 @@ namespace BlazorComponentLibServer.Models
         public string Adress { get; set; }
         public string Cp { get; set; }
         public string City { get; set; }
+        
     }
 }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BlazorComponentLib.Component.TableComponent;
-using BlazorComponentLibServer.Models;
-using Core.Models;
+﻿using BlazorComponentLib.Component.TableComponent;
 using Microsoft.AspNetCore.Components;
 
 namespace BlazorComponentLib.Component
@@ -15,6 +9,11 @@ namespace BlazorComponentLib.Component
     {
         [Inject] 
         private NavigationManager Navigation { get; set; }
+
+        protected override void Create()
+        {
+            
+        }
 
         protected override void Read(string id)
         {

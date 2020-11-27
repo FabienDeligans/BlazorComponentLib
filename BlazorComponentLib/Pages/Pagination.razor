@@ -1,6 +1,5 @@
 ﻿@page "/pagination"
-@using Core.Models
-@using BlazorComponentLibServer.Models
+
 
 <h3>Pagination</h3>
 <br />
@@ -13,29 +12,41 @@
 @if (Generated == true)
 {
     <br />
-
-    <div>
-        Pagination + CRUD d'une liste d'Entity
+    <div class="row">
+        Pagination + CRUD d'une liste d'Entity (@ListPersons.Count)
         <TableComponentOverrided ListEntities="ListPersons" Paginated="true" Crud="true"></TableComponentOverrided>
     </div>
-    <br />
 
-    <div>
-        Pagination d'une liste d'Entity personalisée
+    <br />
+    <div class="row">
+        Pagination d'une liste d'Entity personalisée (@ListPersonsFiltered.Count)
         <TableComponentOverrided ListEntities="ListPersonsFiltered" Paginated="true"></TableComponentOverrided>
     </div>
+
     <br />
-
-    <div>
-        Tableau d'un TRUC
-        <TableComponentOverrided ListEntities="ListTruc" Paginated="true"></TableComponentOverrided>
+    <div class="row">
+        Tableau complet + Crud d'une liste d'Entity (@ListPersons.Count)
+        <TableComponentOverrided ListEntities="ListPersons" Crud="true"></TableComponentOverrided>
     </div>
-    <br/>
-
-    <div>
-        Tableau complet d'une liste d'Entity
+    
+    <br />
+    <div class="row">
+        Tableau complet d'une liste d'Entity (@ListPersons.Count)
         <TableComponentOverrided ListEntities="ListPersons"></TableComponentOverrided>
     </div>
+
+    <br />
+    <div class="row">
+        Pagination d'un TrucNotEntity (@ListTruc.Count)
+        <TableComponentOverrided ListEntities="ListTruc" Paginated="true"></TableComponentOverrided>
+    </div>
+    
+    <br />
+    <div class="row">
+        Tableau Complet d'un TrucNotEntity (@ListTruc.Count)
+        <TableComponentOverrided ListEntities="ListTruc"></TableComponentOverrided>
+    </div>
+
 
 
 }
