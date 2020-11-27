@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Components;
 
 namespace BlazorComponentLib.Component
 {
-    // ReSharper disable once ClassNeverInstantiated.Global
-    // ReSharper disable once IdentifierTypo
     public class TableComponentOverrided<T> : TableComponent<T>
     {
         [Inject] 

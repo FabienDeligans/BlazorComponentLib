@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Core.Models;
 using Microsoft.AspNetCore.Components;
 
 namespace BlazorComponentLib.Component.TableComponent
 {
-    public abstract partial class TableComponent<T> : ComponentBase
+    public abstract partial class TableComponent<T>
     {
         private PaginatedList<T> PaginatedEntities { get; set; }
         private int Index { get; set; }
@@ -92,7 +90,7 @@ namespace BlazorComponentLib.Component.TableComponent
             JumpUp = max+1;
         }
 
-        public void GotoInputSelect(ChangeEventArgs e)
+        private void GotoInputSelect(ChangeEventArgs e)
         {
             var i = Convert.ToInt32(e.Value); 
             GoToPage(i);

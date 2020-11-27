@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using Core.Models;
+﻿using Core.Models;
 
 namespace BlazorComponentLibServer.Models
 {
