@@ -19,7 +19,7 @@ namespace BlazorComponentLib.Pages
             using var context = new BlazorContext();
             if (!context.QueryCollection<Person>().Any())
             {
-                Generate(); 
+
             }
             else
             {
@@ -34,7 +34,7 @@ namespace BlazorComponentLib.Pages
                     .ToList();
 
                 ListTruc = new List<TrucNotEntity>();
-                for (var i = 0; i < NbEntity; i++)
+                for (var i = 0; i < ListPersons.Count; i++)
                 {
                     var truc = new TrucNotEntity
                     {

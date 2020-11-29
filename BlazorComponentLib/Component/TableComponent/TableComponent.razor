@@ -15,7 +15,8 @@ else
     <table class="table table-responsive table-hover">
         <thead>
             <tr>
-                @foreach (var property in PaginatedEntities.First().GetType().GetProperties().Where(v => v.GetValue(ListEntities.First()) != null))
+                <th>#</th>
+                @foreach (var property in ListProperties)
                 {
                     if (property.Name == nameof(Entity.Id))
                     {
@@ -39,7 +40,8 @@ else
             @foreach (var element in PaginatedEntities)
             {
                 <tr>
-                    @foreach (var property in element.GetType().GetProperties().Where(v => v.GetValue(element) != null))
+                    <td>@(ListEntities.IndexOf(element))</td>
+                    @foreach (var property in ListProperties)
                     {
                         if (property.Name == nameof(Entity.Id))
                         {
@@ -66,59 +68,57 @@ else
     </table>
     @if (Paginated)
     {
-        <div>
-            <nav>
-                <ul class="pagination">
-                    @if (Index != 1)
+        <nav>
+            <ul class="pagination">
+                @if (Index != 1)
+                {
+                    <li class="page-item">
+                        <button class="btn btn-secondary" @onclick="(() => GoToPage(Index - 1))">Prev.</button>
+                    </li>
+                    @if (Index >= 10)
                     {
                         <li class="page-item">
-                            <button class="btn btn-secondary" @onclick="(() => GoToPage(Index - 1))">Prev.</button>
-                        </li>
-                        @if (Index >= 10)
-                        {
-                            <li class="page-item">
-                                <button class="btn btn-info" @onclick="(() => GoToPage(JumpDown))">@(JumpDown)...</button>
-                            </li>
-                        }
-                    }
-                    @foreach (var i in ButtonList)
-                    {
-                        <li class="page-item">
-                            @{var y = i;}
-                            <button class="@(i == Index ? "btn btn-success" : "btn btn")" @onclick="(() => GoToPage(y))">@y</button>
+                            <button class="btn btn-info" @onclick="(() => GoToPage(JumpDown))">@(JumpDown)...</button>
                         </li>
                     }
-                    @if (!ButtonList.Contains(NumberOfPage))
-                    {
-                        <li class="page-item">
-                            <button class="btn btn-info" @onclick="(() => GoToPage(JumpUp))">@(JumpUp)...</button>
-                        </li>
-                    }
-                    @if (Index != NumberOfPage)
-                    {
-                        <li class="page-item">
-                            <button class="btn btn-secondary" @onclick="(() => GoToPage(Index + 1))">Suiv.</button>
-                        </li>
-                    }
-                    <li>
-                        <div class="row">
-                            <div class="col-6" align="center">
-                                <div class=" btn btn-link disabled">
-                                    @Index/@NumberOfPage
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <select class="custom-select" @onchange="@GotoInputSelect">
-                                    @for (var i = 1; i <= NumberOfPage; i++)
-                                    {
-                                        <option value="@i">@i</option>
-                                    }
-                                </select>
+                }
+                @foreach (var i in ButtonList)
+                {
+                    <li class="page-item">
+                        @{var y = i;}
+                        <button class="@(i == Index ? "btn btn-success" : "btn btn")" @onclick="(() => GoToPage(y))">@y</button>
+                    </li>
+                }
+                @if (!ButtonList.Contains(NumberOfPage))
+                {
+                    <li class="page-item">
+                        <button class="btn btn-info" @onclick="(() => GoToPage(JumpUp))">@(JumpUp)...</button>
+                    </li>
+                }
+                @if (Index != NumberOfPage)
+                {
+                    <li class="page-item">
+                        <button class="btn btn-secondary" @onclick="(() => GoToPage(Index + 1))">Suiv.</button>
+                    </li>
+                }
+                <li>
+                    <div class="row">
+                        <div class="col-6" align="center">
+                            <div class=" btn btn-link disabled">
+                                Page @Index/@NumberOfPage
                             </div>
                         </div>
-                    </li>
-                </ul>
-            </nav>
-        </div>
+                        <div class="col-5">
+                            <select class="custom-select" @onchange="@GotoInputSelect">
+                                @for (var i = 1; i <= NumberOfPage; i++)
+                                {
+                                    <option value="@i">@i</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </nav>
     }
 }
