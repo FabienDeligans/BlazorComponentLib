@@ -17,39 +17,32 @@ namespace BlazorComponentLib.Pages
         protected override void OnInitialized()
         {
             using var context = new BlazorContext();
-            if (!context.QueryCollection<Person>().Any())
-            {
-
-            }
-            else
-            {
-                ListPersons = context.QueryCollection<Person>().ToList();
-                ListPersonsFiltered = ListPersons
-                    .Select(v => new Person
-                    {
-                        FirstName = v.FirstName,
-                        LastName = v.LastName,
-                        Id = v.Id,
-                    })
-                    .ToList();
-
-                ListTruc = new List<TrucNotEntity>();
-                for (var i = 0; i < ListPersons.Count; i++)
+            if (!context.QueryCollection<Person>().Any()) return;
+            ListPersons = context.QueryCollection<Person>().ToList();
+            ListPersonsFiltered = ListPersons
+                .Select(v => new Person
                 {
-                    var truc = new TrucNotEntity
-                    {
-                        StrA = $"aa{i}",
-                        StrB = $"bb{i}",
-                        StrC = $"cc{i}",
-                        StrD = $"dd{i}",
-                        StrE = $"ee{i}",
-                    };
-                    ListTruc.Add(truc);
-                }
+                    FirstName = v.FirstName,
+                    LastName = v.LastName,
+                    Id = v.Id,
+                })
+                .ToList();
 
-                Generated = true;
+            ListTruc = new List<TrucNotEntity>();
+            for (var i = 0; i < NbEntity ; i++)
+            {
+                var truc = new TrucNotEntity
+                {
+                    StrA = $"aa{i}",
+                    StrB = $"bb{i}",
+                    StrC = $"cc{i}",
+                    StrD = $"dd{i}",
+                    StrE = $"ee{i}",
+                };
+                ListTruc.Add(truc);
             }
-            base.OnInitialized();
+
+            Generated = true;
         }
 
         private void Generate()

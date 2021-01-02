@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using BlazorComponentLib.Component.TableComponent;
-using BlazorComponentLibServer.Context;
-using BlazorComponentLibServer.Models;
+﻿using BlazorComponentLib.Component.TableComponent;
 using Microsoft.AspNetCore.Components;
 
 namespace BlazorComponentLib.Component
